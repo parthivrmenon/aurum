@@ -2,26 +2,33 @@ package impl
 
 import (
 	"aurum/core"
+	"fmt"
+	"os"
 	"testing"
 	"time"
 )
 
+var testDp *core.Dp
+
+func TestMain(m *testing.M) {
+	testDp = core.NewDp(
+		"aws:ec2",
+		"capture-mobile",
+		"dev",
+		"us-west-2",
+		"internal",
+		time.Date(2024, time.January, 1, 0, 0, 0, 0, time.UTC),
+		123.4,
+	)
+	fmt.Printf("Test Datapoint %s", testDp.Provider)
+	code := m.Run()
+	os.Exit(code)
+
+}
+
 func TestCreate(t *testing.T) {
-	//
 	repo := NewInMemoryDpRepository()
-
-	// Create a sample Dp entity
-	dp := &core.Dp{
-		Provider:  "AWS",
-		Product:   "EC2",
-		Tier:      "Premium",
-		Region:    "us-west-1",
-		Customer:  "CustomerA",
-		Timestamp: time.Now(),
-		Value:     100.0,
-	}
-
-	err := repo.Create(dp)
+	err := repo.Insert(testDp)
 	if err != nil {
 		t.Errorf("Unexpected Error occurred while doing Create() %s", err)
 
@@ -29,25 +36,18 @@ func TestCreate(t *testing.T) {
 
 }
 
-func TestGet(t *testing.T) {
+func TestRetrieve(t *testing.T) {
 	repo := NewInMemoryDpRepository()
-
-	// Create a sample Dp entity
-	dp := &core.Dp{
-		Provider:  "AWS",
-		Product:   "EC2",
-		Tier:      "Premium",
-		Region:    "us-west-1",
-		Customer:  "CustomerA",
-		Timestamp: time.Now(),
-		Value:     100.0,
-	}
-
-	repo.Create(dp)
-	_, err := repo.Get()
+	repo.Insert(testDp)
+	d, err := repo.Retrieve()
 	if err != nil {
 		t.Errorf("Unexpected Error occurred while doing Create() %s", err)
+	}
 
+	// Check if repo contains exactly 1 element
+	n := len(d)
+	if n != 1 {
+		t.Errorf("Expected length 1 got %d", n)
 	}
 
 }
@@ -55,24 +55,15 @@ func TestGet(t *testing.T) {
 func TestSearch(t *testing.T) {
 
 	repo := NewInMemoryDpRepository()
-	// Create a sample Dp entity
-	dp := &core.Dp{
-		Provider:  "AWS",
-		Product:   "EC2",
-		Tier:      "Premium",
-		Region:    "us-west-1",
-		Customer:  "CustomerA",
-		Timestamp: time.Now(),
-		Value:     100.0,
-	}
+	repo.Insert(testDp)
 
-	repo.Create(dp)
-
-	results := repo.Search("AWS",
-		"EC2",
-		"Premium",
-		"us-west-1",
-		"CustomerA",
+	// Test successful search
+	results := repo.Search(
+		"aws:ec2",
+		"capture-mobile",
+		"dev",
+		"us-west-2",
+		"internal",
 	)
 
 	if len(results) != 1 {

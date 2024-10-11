@@ -4,6 +4,7 @@ import (
 	"aurum/core"
 )
 
+// Simply store DP as a list
 type InMemoryDpRepository struct {
 	data []core.Dp
 }
@@ -14,14 +15,14 @@ func NewInMemoryDpRepository() *InMemoryDpRepository {
 	}
 }
 
-func (r *InMemoryDpRepository) Create(dp *core.Dp) error {
+func (r *InMemoryDpRepository) Insert(dp *core.Dp) error {
 	// TODO: CHeck if exists
 	r.data = append(r.data, *dp)
 	return nil
 
 }
 
-func (r *InMemoryDpRepository) Get() ([]core.Dp, error) {
+func (r *InMemoryDpRepository) Retrieve() ([]core.Dp, error) {
 	return r.data, nil
 }
 
