@@ -8,7 +8,7 @@ type Dp struct {
 	Provider  string    `json:"provider"`
 	Product   string    `json:"product"`
 	Tier      string    `json:"tier"`
-	Region    string    `json:"region`
+	Region    string    `json:"region"`
 	Customer  string    `json:"customer"`
 	Timestamp time.Time `json:"timestamp"`
 	Value     float64   `json:"value"`
