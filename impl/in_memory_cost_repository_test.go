@@ -8,11 +8,12 @@ import (
 	"time"
 )
 
-var testDp *core.Dp
+var testDp *core.Cost
 
 func TestMain(m *testing.M) {
-	testDp = core.NewDp(
-		"aws:ec2",
+	testDp = core.NewCost(
+		"aws",
+		"ec2",
 		"capture-mobile",
 		"dev",
 		"us-west-2",
@@ -27,7 +28,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestCreate(t *testing.T) {
-	repo := NewInMemoryDpRepository()
+	repo := NewInMemoryCostRepository()
 	err := repo.Insert(testDp)
 	if err != nil {
 		t.Errorf("Unexpected Error occurred while doing Create() %s", err)
@@ -37,7 +38,7 @@ func TestCreate(t *testing.T) {
 }
 
 func TestRetrieve(t *testing.T) {
-	repo := NewInMemoryDpRepository()
+	repo := NewInMemoryCostRepository()
 	repo.Insert(testDp)
 	d, err := repo.Retrieve()
 	if err != nil {
@@ -54,12 +55,13 @@ func TestRetrieve(t *testing.T) {
 
 func TestSearch(t *testing.T) {
 
-	repo := NewInMemoryDpRepository()
+	repo := NewInMemoryCostRepository()
 	repo.Insert(testDp)
 
 	// Test successful search
 	results := repo.Search(
-		"aws:ec2",
+		"aws",
+		"ec2",
 		"capture-mobile",
 		"dev",
 		"us-west-2",

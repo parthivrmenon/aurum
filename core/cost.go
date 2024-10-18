@@ -4,8 +4,9 @@ import (
 	"time"
 )
 
-type Dp struct {
+type Cost struct {
 	Provider  string    `json:"provider"`
+	Resource  string    `json:"resource"`
 	Product   string    `json:"product"`
 	Tier      string    `json:"tier"`
 	Region    string    `json:"region"`
@@ -14,18 +15,20 @@ type Dp struct {
 	Value     float64   `json:"value"`
 }
 
-func NewDp(
+func NewCost(
 	provider string,
+	resource string,
 	product string,
 	tier string,
 	region string,
 	customer string,
 	timestamp time.Time,
 	value float64,
-) *Dp {
+) *Cost {
 
-	return &Dp{
+	return &Cost{
 		Provider:  provider,
+		Resource:  resource,
 		Product:   product,
 		Tier:      tier,
 		Region:    region,

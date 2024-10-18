@@ -22,8 +22,8 @@ func TestNewAwsCostUsageReportDatapoint(t *testing.T) {
 	}
 
 }
-func TestNewCsvAwsCostUsageReportDpSource(t *testing.T) {
-	csvDpSource, err := NewCsvAwsCostUsageReportDpSource("../data/aws_cur_report_sample.csv")
+func TestNewCsvAwsCostUsageReportCostDatasource(t *testing.T) {
+	csvDpSource, err := NewCsvAwsCostUsageReportCostDatasource("../data/aws_cur_report_sample.csv")
 	if err != nil {
 		t.Errorf("Unexpected error %s", err)
 	}
@@ -35,7 +35,7 @@ func TestNewCsvAwsCostUsageReportDpSource(t *testing.T) {
 
 func TestFetch(t *testing.T) {
 	// Good Path
-	csvDpSource, _ := NewCsvAwsCostUsageReportDpSource("../data/aws_cur_report_sample.csv")
+	csvDpSource, _ := NewCsvAwsCostUsageReportCostDatasource("../data/aws_cur_report_sample.csv")
 	results, err := csvDpSource.Fetch(time.Now(), time.Now())
 	if err != nil {
 		t.Errorf("An unexpected err occured %s", err)
@@ -64,7 +64,7 @@ func TestFetch(t *testing.T) {
 	}
 
 	// Bad Path
-	badCsvDpSource, _ := NewCsvAwsCostUsageReportDpSource("../non-existent/path")
+	badCsvDpSource, _ := NewCsvAwsCostUsageReportCostDatasource("../non-existent/path")
 	_, err = badCsvDpSource.Fetch(time.Now(), time.Now())
 	if err == nil {
 		t.Error("Expected an error to be thrown")
@@ -72,7 +72,7 @@ func TestFetch(t *testing.T) {
 	}
 
 	// Bad Path
-	badCsvDpSource, _ = NewCsvAwsCostUsageReportDpSource("../data/malformatted.csv")
+	badCsvDpSource, _ = NewCsvAwsCostUsageReportCostDatasource("../data/malformatted.csv")
 	_, err = badCsvDpSource.Fetch(time.Now(), time.Now())
 	if err == nil {
 		t.Error("Expected an error to be thrown")

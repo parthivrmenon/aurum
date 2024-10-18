@@ -5,8 +5,9 @@ import (
 	"time"
 )
 
-func TestNewDp(t *testing.T) {
+func TestNewCost(t *testing.T) {
 	product := "foo"
+	title := "compute"
 	provider := "foo"
 	tier := "dev"
 	region := "global"
@@ -14,8 +15,11 @@ func TestNewDp(t *testing.T) {
 	timestamp := time.Now()
 	value := 123.4
 
-	dp := NewDp(provider, product, tier, region, customer, timestamp, value)
+	dp := NewCost(provider, title, product, tier, region, customer, timestamp, value)
 
+	if dp.Resource != title {
+		t.Errorf("Expected %s but got %s instead.", product, dp.Product)
+	}
 	if dp.Product != product {
 		t.Errorf("Expected %s but got %s instead.", product, dp.Product)
 	}

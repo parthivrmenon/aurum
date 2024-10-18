@@ -9,7 +9,7 @@ import (
 )
 
 // Function to print Dp struct as JSON
-func printDpAsJSON(dp core.Dp) {
+func printDpAsJSON(dp core.Cost) {
 	// Convert the struct to JSON
 	jsonData, err := json.Marshal(dp)
 	if err != nil {
@@ -22,22 +22,24 @@ func printDpAsJSON(dp core.Dp) {
 
 func main() {
 	// Create a new metric
-	metric_one := core.NewDp(
-		"aws",
-		"capture mobile",
-		"dev",
+	metric_one := core.NewCost(
+		"AWS",
+		"EC2",
+		"Product A",
+		"Development",
 		"us-west-2",
 		"multicustomer",
 		time.Now(),
 		123.45,
 	)
 
-	metric_two := core.NewDp(
-		"Bar",
-		"ProductB",
-		"Prod",
+	metric_two := core.NewCost(
+		"AWS",
+		"S3",
+		"Product A",
+		"Development",
 		"us-east-1",
-		"Customer",
+		"multicustomer",
 		time.Now(),
 		123.45,
 	)
@@ -45,7 +47,7 @@ func main() {
 	// Print the metric
 	//fmt.Printf("Metric: %+v\n", metric)
 
-	var repo core.DpRepository = impl.NewInMemoryDpRepository()
+	var repo core.CostRepository = impl.NewInMemoryCostRepository()
 	repo.Insert(metric_one)
 	repo.Insert(metric_two)
 

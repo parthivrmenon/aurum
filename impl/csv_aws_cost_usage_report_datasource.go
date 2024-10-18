@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type CsvAwsCostUsageReportDpSource struct {
+type CsvAwsCostUsageReportCostDatasource struct {
 	filepath string
 }
 
@@ -48,13 +48,13 @@ func NewAwsCostUsageReportDatapoint(
 	}, nil
 }
 
-func NewCsvAwsCostUsageReportDpSource(filepath string) (*CsvAwsCostUsageReportDpSource, error) {
-	return &CsvAwsCostUsageReportDpSource{
+func NewCsvAwsCostUsageReportCostDatasource(filepath string) (*CsvAwsCostUsageReportCostDatasource, error) {
+	return &CsvAwsCostUsageReportCostDatasource{
 		filepath: filepath,
 	}, nil
 }
 
-func (c *CsvAwsCostUsageReportDpSource) Fetch(start_date time.Time, end_date time.Time) ([]AwsCostUsageReportDatapoint, error) {
+func (c *CsvAwsCostUsageReportCostDatasource) Fetch(start_date time.Time, end_date time.Time) ([]AwsCostUsageReportDatapoint, error) {
 
 	var datapoints []AwsCostUsageReportDatapoint
 
